@@ -1,6 +1,6 @@
 #!/bin/bash
 
-lsblk
+lsblk -f
 
 echo -e "\nEnter y or n:"
 
