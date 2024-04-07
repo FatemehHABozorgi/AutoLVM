@@ -5,7 +5,7 @@
 
 lsblk -f
 
-echo "Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
+echo "\nEnter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
 read -a disk_names
 
 echo -e "\nConfirm the disk list with yes or no:"
