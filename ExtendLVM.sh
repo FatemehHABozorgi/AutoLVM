@@ -5,16 +5,14 @@
 
 lsblk -f
 
-echo -e "\nEnter y or n:"
+echo "Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
+read -a disk_names
 
+echo -e "\nConfirm the disk list with yes or no:"
 read var
 
 if [[ "$var" == "y" ]]; then
 	echo "#####################################################################"
-
-	echo -e "\nEnter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
-	read -a disk_names
-
 	# Check if any of the disks are already part of the volume group
 	for disk_name in "${disk_names[@]}"; do
 		if pvs -o vg_name "$disk_name" &>/dev/null; then
