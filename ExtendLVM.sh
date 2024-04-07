@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# OS: Redhat
+# Filesystem: xfs
+
 lsblk -f
 
 echo -e "\nEnter y or n:"
