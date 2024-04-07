@@ -3,9 +3,12 @@
 # OS: Redhat
 # Filesystem: xfs
 
+vg_name="vgdata"
+lv_name="lvdata"
+
 lsblk -f
 
-echo "\nEnter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
+echo "Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
 read -a disk_names
 
 echo -e "\nConfirm the disk list with yes or no:"
@@ -39,25 +42,25 @@ if [[ "$var" == "yes" ]]; then
 
     echo "#####################################################################"
     echo "Creating volume group..."
-    if vgcreate vgdata "${disk_names[@]}"; then
-        echo "Volume group 'vgdata' created successfully."
+    if vgcreate "$vg_name" "${disk_names[@]}"; then
+        echo "Volume group '$vg_name' created successfully."
     else
-        echo "Error: Failed to create volume group 'vgdata'."
+        echo "Error: Failed to create volume group '$vg_name'."
         exit 1
     fi
 
     echo "#####################################################################"
     echo "Creating logical volume..."
-    if lvcreate -n lvdata -l +95%FREE vgdata; then
-        echo "Logical volume 'lvdata' created successfully."
+    if lvcreate -n "$lv_name" -l +95%FREE "$vg_name"; then
+        echo "Logical volume '$lv_name' created successfully."
     else
-        echo "Error: Failed to create logical volume 'lvdata'."
+        echo "Error: Failed to create logical volume '$lv_name'."
         exit 1
     fi
 
     echo "#####################################################################"
     echo "Creating file system..."
-    if mkfs.xfs /dev/mapper/vgdata-lvdata; then
+    if mkfs.xfs /dev/mapper/"$vg_name"-"$lv_name"; then
         echo "File system created successfully."
     else
         echo "Error: Failed to create file system."
@@ -66,7 +69,7 @@ if [[ "$var" == "yes" ]]; then
 
     echo "#####################################################################"
     echo "Mounting logical volume..."
-    if mkdir -v /data && mount -v /dev/mapper/vgdata-lvdata /data/; then
+    if mkdir -v /data && mount -v /dev/mapper/"$vg_name"-"$lv_name" /data/; then
         echo "Logical volume mounted successfully."
     else
         echo "Error: Failed to mount logical volume."
@@ -74,7 +77,7 @@ if [[ "$var" == "yes" ]]; then
     fi
 
     echo "#####################################################################"
-    echo -e "/dev/mapper/vgdata-lvdata\t/data\txfs\tdefaults,noatime,nodiratime\t0 0" >> /etc/fstab
+    echo -e "/dev/mapper/'$vg_name'-'$lv_name'\t/data\txfs\tdefaults,noatime,nodiratime\t0 0" >> /etc/fstab
     echo "Updated /etc/fstab:"
     cat /etc/fstab
 
