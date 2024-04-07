@@ -11,7 +11,7 @@ read -a disk_names
 echo -e "\nConfirm the disk list with yes or no:"
 read var
 
-if [[ "$var" == "y" ]]; then
+if [[ "$var" == "yes" ]]; then
 	echo "#####################################################################"
 	# Check if any of the disks are already part of the volume group
 	for disk_name in "${disk_names[@]}"; do
