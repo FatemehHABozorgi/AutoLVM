@@ -3,6 +3,8 @@
 # OS: Redhat
 # Filesystem: xfs
 
+set -o pipefail
+
 vg_name="vgdata"
 lv_name="lvdata"
 
@@ -11,8 +13,7 @@ lsblk -f
 echo "Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
 read -a disk_names
 
-echo -e "\nConfirm the disk list with yes or no:"
-read var
+read -rp "Are you sure you want to use the provided disk(s)? (yes/no): " var
 
 if [[ "$var" == "yes" ]]; then
 	echo "#####################################################################"
