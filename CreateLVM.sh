@@ -13,7 +13,7 @@ if [[ "$var" == "y" ]]; then
 
     # Check if any of the disks are already part of the volume group
     for disk_name in "${disk_names[@]}"; do
-        if vgs "$disk_name" &>/dev/null; then
+        if pvs -o vg_name "$disk_name" &>/dev/null; then
             echo "Error: The disk '$disk_name' is already part of a volume group."
             exit 1
         fi
@@ -85,4 +85,5 @@ if [[ "$var" == "y" ]]; then
     echo "#####################################################################"
 fi
 
+echo "Don't forget to check /var/log/message for disk errors."
 echo "Done :)"
