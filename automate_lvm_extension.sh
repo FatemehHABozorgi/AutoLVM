@@ -3,9 +3,12 @@
 # OS: Redhat
 # Filesystem: xfs
 
+vg_name="vgdata"
+lv_name="lvdata"
+
 lsblk -f
 
-echo "\nEnter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
+echo "Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY):"
 read -a disk_names
 
 echo -e "\nConfirm the disk list with yes or no:"
@@ -29,7 +32,7 @@ if [[ "$var" == "yes" ]]; then
 				echo "Physical volume created successfully."
 				echo "#####################################################################"
 				echo "Extending volume group with $disk_name..."
-				if vgextend vgdata "$disk_name"; then
+				if vgextend "$vg_name" "$disk_name"; then
 					echo "Volume group extended successfully with $disk_name."
 				else
 					echo "Error: Failed to extend volume group with $disk_name."
@@ -47,11 +50,11 @@ if [[ "$var" == "yes" ]]; then
 
 	echo "#####################################################################"
 	echo "Extending logical volume..."
-	if lvextend -l +95%FREE /dev/vgdata/lvdata; then
+	if lvextend -l +95%FREE /dev/"$vg_name"/"$lv_name"; then
 		echo "Logical volume extended successfully."
 		echo "#####################################################################"
 		echo "Growing file system..."
-		if xfs_growfs /dev/mapper/vgdata-lvdata; then
+		if xfs_growfs /dev/mapper/"$vg_name"-"$lv_name"; then
 			echo "File system grown successfully."
 			echo "#####################################################################"
 			lsblk -f
