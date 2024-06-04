@@ -3,7 +3,7 @@
 # OS: Redhat
 # Filesystem: xfs
 
-set -o pipefail
+set -ox pipefail
 
 vg_name="vgdata"
 lv_name="lvdata"
@@ -91,5 +91,5 @@ if [[ "$var" == "yes" ]]; then
     echo "#####################################################################"
 fi
 
-echo "Don't forget to check /var/log/message for disk errors."
+echo "Don't forget to check /var/log/messages for disk errors."
 echo "Done :)"
