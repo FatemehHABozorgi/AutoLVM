@@ -43,14 +43,14 @@ git clone https://github.com/FatemehHABozorgi/AutoLVM.git
 cd AutoLVM
 ```
 
-2. Make the Scripts Executable
+### 2. Make the Scripts Executable
 Make both scripts executable:
 
 ```
 chmod +x automate_lvm_creation.sh
 chmod +x automate_lvm_extension.sh
 ```
-3. Run the Scripts
+### 3. Run the Scripts
 LVM Creation Script
 Execute the automate_lvm_creation.sh script to create a new LVM:
 ```
@@ -69,15 +69,15 @@ The script will prompt you to enter the disk(s) you wish to add to the existing 
 Confirm your selection when prompted.
 
 
-4. Completion
+### 4. Completion
 Upon successful completion, the scripts will:
 
 LVM Creation Script: Display the new disk layout, the current file system usage, and update /etc/fstab.
 LVM Extension Script: Display the extended disk layout, the new file system size, and provide reminders to check for any disk errors.
+
 Example
 LVM Creation Script Example
-bash
-Copy code
+```
 lsblk -f
 
 Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY): /dev/sdb
@@ -101,10 +101,12 @@ Logical volume mounted successfully.
 Updated /etc/fstab:
 ...
 
+Don't forget to check /var/log/messages for disk errors.
 Done :)
+```
+
 LVM Extension Script Example
-bash
-Copy code
+```
 lsblk -f
 
 Enter the name(s) of the disk(s) to use (e.g., /dev/sdX /dev/sdY): /dev/sdc
@@ -124,18 +126,20 @@ File system grown successfully.
 
 Don't forget to check /var/log/messages for disk errors.
 Done :)
-Troubleshooting
+```
+
+## Troubleshooting
 If you encounter any issues, please ensure:
 
 The disks you specified are not already part of another volume group when running the extension script.
 You are running the scripts with sufficient privileges (e.g., as root or using sudo).
 Check /var/log/messages for any disk-related errors.
 
-Contributing
+## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-License
+## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
-Author
-Created by Your Name.
+## Author
+Created by Fatemeh Haji Agha Bozorgi.
